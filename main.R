@@ -62,46 +62,5 @@ map_leaflet_airport(df = pax_apt_all,
                     airports_location = airports_location, 
                     month = month_selected, 
                     year= year_selected)
-map_leaflet_airport <- function(df, airports_location, month, year){
-  
-  
-  trafic_date <- df %>%
-    filter(
-      mois %in% month_selected,
-      as.character(an) %in% year_selected
-    )
-  
-  trafic_aeroports <- inner_join(
-    airports_location |>
-      select(setdiff(colnames(airports_location), colnames(trafic_date))),
-    trafic_date,
-    by = c("Code.OACI" = "apt")
-  )
-
-  trafic_aeroports <- trafic_aeroports |>
-    mutate(
-      volume = ntile(trafic, 3)
-    ) %>%
-    mutate(
-      color = palette[volume]
-    )
-  
-  icons <- awesomeIcons(
-    icon = 'plane',
-    iconColor = 'black',
-    library = 'fa',
-    markerColor = trafic_aeroports$color
-  )
-  
-  carte_interactive <- leaflet(trafic_aeroports) |>
-    addTiles() |>
-    addAwesomeMarkers(
-      icon=icons[],
-      label=~paste0(str_to_title(Nom), "", " (",Code.OACI, ") : ", trafic, " voyageurs")
-    )
-  
-  return(carte_interactive)
-  
-}
 
 
