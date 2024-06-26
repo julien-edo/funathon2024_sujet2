@@ -17,7 +17,7 @@ plot_airport_line <- function(df, selected_airport){
   return(ggplotly(figure_ggplot))
 }
 
-map_leaflet_airport <- function(df, airports_location, month, year){
+map_leaflet_airport <- function(df, airports_location, month_selected, year_selected){
   
   
   trafic_date <- df %>%
